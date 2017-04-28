@@ -58,6 +58,54 @@ router.post('/authenticate', (req,res) => {
     });
 });
 
+router.post('/changepassword', passport.authenticate('jwt', {session: false}), (req,res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    const newPassword = req.body.newPassword;
+
+    User.getUserByUsername(username, (err, user) => { // check for user
+        if(err) throw err;
+
+        if(!user){ // no match
+            return res.json({success: false, msg: "User not found."});
+        }
+
+        User.comparePassword(password, user.password, (err, isMatch) => { // if user exists, check for password
+            if(err) throw err;
+
+            if(isMatch){ // if the old password matches
+                // change his old password
+                User.changePassword(username, newPassword, (err, isChanged) => {
+                    if(err) throw err;
+
+                    if(isChanged){
+                        res.json({success: true, msg: "Password changed successfully."});
+                    }else{
+                        return res.json({success: false, msg: "Unable to change password."});
+                    }
+
+                })
+            }else{ // no match
+                return res.json({success: false, msg: "Wrong password."});
+            }
+        });
+    });
+});
+
+router.post('/deleteuser', passport.authenticate('jwt', {session: false}), (req,res) => {
+    const username = req.body.username;
+
+    User.deleteUser(username, (err, isDeleted) => {
+        if(err) throw err;
+
+        if(isDeleted){
+            return res.json({success: true, msg: "User deleted successfully."});
+        }else{
+            return res.json({success: false, msg: "Couldn't delete user."});
+        }
+    });
+});
+
 router.get('/profile', passport.authenticate('jwt', {session: false}), (req,res) => {
     res.json({
         user: req.user

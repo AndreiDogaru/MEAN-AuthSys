@@ -4,4 +4,43 @@
     <li class="list-group-item">Username: {{user.username}}</li>
     <li class="list-group-item">Email: {{user.email}}</li>
   </ul>
+
+  <h4 class="page-header">Change Password</h4>
+  <form (submit)="onChangePasswordSubmit()">
+    <div class="form-group">
+      <label>Old Password</label>
+      <input type="password" [(ngModel)]="password" name="password" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>New Password</label>
+      <input type="password" [(ngModel)]="newPassword" name="newPassword" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Change</button>
+  </form>
+
+  <h4 class="page-header">Delete Account</h4>
+  <div *ngIf="showAlert" class="alert alert-danger">
+    <button (click)="onHideAlert()" class="close">&times;</button>
+    <h4>Danger !</h4>
+    <p>You cannot undo these changes !</p>
+  </div>
+  <button (click)="onDeleteAccountSubmit()" type="submit" class="btn btn-danger">Delete</button>
+
+  <!-- <button type="button" class="btn btn-primary" (click)="showModal()">Render auto-shown modal</button>
+  <div *ngIf="isModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Danger !</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>You cannot undo these changes !</p>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
 </div>

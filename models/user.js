@@ -44,7 +44,25 @@ module.exports.addUser = function(newUser, callback){
 
 module.exports.comparePassword = function(candidatePassword, hash, callback){
     bcrypt.compare(candidatePassword, hash, (err,isMatch) => {
-        if(err) throw err;
+        if(err) console.log(err);
         callback(null,isMatch);
     });
+}
+
+module.exports.changePassword = function(username,newPassword, callback){
+    bcrypt.genSalt(10, (err,salt) => {
+        bcrypt.hash(newPassword, salt, (err, hash) =>{
+            if(err) throw err;
+            newPassword = hash;
+
+            const query = {username: username};
+            const set = {$set:{password:newPassword}}
+            User.updateOne(query,set,{new: true},callback);
+        });
+    });
+}
+
+module.exports.deleteUser = function(username, callback){
+    const query = {username: username};
+    User.deleteOne(query, callback);
 }

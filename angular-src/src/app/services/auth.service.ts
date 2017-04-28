@@ -24,6 +24,24 @@ export class AuthService {
                     .map((res:Response) => res.json());
   }
 
+  changePassword(user){
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization',this.authToken);
+    headers.append('Content-Type','application/json');
+    return this.http.post('users/changepassword', user, {headers: headers})
+                    .map((res:Response) => res.json());
+  }
+
+  deleteUser(user){
+    let headers = new Headers();
+    this.loadToken();
+    headers.append('Authorization',this.authToken);
+    headers.append('Content-Type','application/json');
+    return this.http.post('users/deleteuser', user, {headers: headers})
+                    .map((res:Response) => res.json());
+  }
+
   getProfile(){
     let headers = new Headers();
     this.loadToken();

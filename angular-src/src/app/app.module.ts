@@ -15,6 +15,9 @@ import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
+import { CollapseDirective } from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap';
+
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
 
@@ -35,14 +38,16 @@ const appRoutes: Routes = [
     RegisterComponent,
     HomeComponent,
     DashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    CollapseDirective
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    FlashMessagesModule
+    FlashMessagesModule,
+    ModalModule.forRoot()
   ],
   providers: [ValidateService,AuthService,AuthGuard,PreventLoginGuard],
   bootstrap: [AppComponent]
